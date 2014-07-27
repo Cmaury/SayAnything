@@ -6,9 +6,8 @@ import os
 from pydub import AudioSegment
 
 parser = argparse.ArgumentParser(
-description = "This script performs two primary actions\n \
-1. Clamps the longitude value of all points to the given one, or to the default value if none is provided.\n \
-2. Uses the Douglas-Peucker line simplification algorithm with the given epsilon, or the default value if none is provided.",
+description = "This script performs the following actions\n \
+1. Itterates through input directory or single file, splitting input files into one minute snippets.\n",
 formatter_class = argparse.RawTextHelpFormatter
 )
 parser.add_argument('-b', '--batch', help='Runs the script in batch mode', action='count')
