@@ -1,8 +1,25 @@
+#!/usr/bin/python
+
+import argparse
 import logging
 import os
 from pydub import AudioSegment
 
-logging.basicConfig(filename='logs.log',level=logging.DEBUG)
+parser = argparse.ArgumentParser(
+description = "This script performs two primary actions\n \
+1. Clamps the longitude value of all points to the given one, or to the default value if none is provided.\n \
+2. Uses the Douglas-Peucker line simplification algorithm with the given epsilon, or the default value if none is provided.",
+formatter_class = argparse.RawTextHelpFormatter
+)
+parser.add_argument('-b', '--batch', help='Runs the script in batch mode', action='count')
+parser.add_argument('-l', '--log-level', help='Set the debug level for the logger', choices=['debug', 'info', 'warning', 'error', 'critical'], default='info')
+parser.add_argument('-i', '--input', help='Input path for file or directory', required=True)
+parser.add_argument('-f', '--logfile', help='Path for log file', default='logs.log')
+parser.add_argument('-o', '--output', help='Output path for file or directory', required=True)
+parser.add_argument('-p', '--pretend', help='Runs the script in pretend mode, not actually changing any files', action='count')
+args = parser.parse_args()
+
+logging.basicConfig(filename=args.logfile, level=getattr(logging, args.log_level.upper(), None))
 
 #Global Vars
 workingDirectory = './'
@@ -10,7 +27,7 @@ targetDirectory = './snippets/'
 filecounter = 0
 
 #Get files
-def sliceFiles(dir = workingDirectory, targetDir= targetDirectory):
+def sliceFiles(dir, targetDir):
     global workingDirectory
     workingDirectory = dir + '/'
     global targetDirectory
@@ -38,6 +55,8 @@ def sliceSong(filename):
         filecounter += 1
 
 def saveSongSnippets(snippet, targetFileName):
+    if not args.pretend:
         snippet.export(targetDirectory + targetFileName + ".wav", format="wav")
-        logging.info('song snippet ' + targetFileName + ' saved')    
+    logging.info('song snippet ' + targetFileName + ' saved')    
 
+sliceFiles(args.input, args.output)

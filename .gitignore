@@ -21,6 +21,7 @@ eggs
 fake-eggs
 parts
 dist
+sandbox
 .installed.cfg
 .mr.developer.cfg
 .hg
