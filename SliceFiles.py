@@ -40,7 +40,7 @@ def extractFilenameFromPath(path):
  """Returns the filename portion of a path on all platforms, but does assume no Linux files with backslashes in their names."""
  head, tail = ntpath.split(path)
  tail = tail or ntpath.basename(head)
- logging.debug('extractFilename: head='+head+' tail='+tail)
+ logging.debug('extractFilename: head= '+ head + ' and tail= '+ tail)
  return tail or ntpath.basename(head)
 
 def sliceFile(filePath, targetDir, pretend=False):
